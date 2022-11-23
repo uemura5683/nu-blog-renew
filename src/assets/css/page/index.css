@@ -1,0 +1,16 @@
+#t_main_visual {
+    padding: 47% 0 0;
+    margin: 0;
+}
+#t_main_visual:after {
+    content: none;
+}
+@media (max-width: 767px) {
+    #t_main_visual {
+        padding: 115% 0 0;
+        margin: 0;
+    }
+    #t_main_visual img {
+        max-width: 250%;
+    }
+}
