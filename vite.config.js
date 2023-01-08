@@ -18,10 +18,9 @@ export default defineConfig({
       input: {
         index: resolve(__dirname, 'index.html'),
         contact: resolve(__dirname, 'contact.html'),
-        item: resolve(__dirname, 'item.html'),
-        profile: resolve(__dirname, 'profile.html'),
-        privacy: resolve(__dirname, 'privacy.html'),
-        about: resolve(__dirname, 'about.html')
+        portfolio: resolve(__dirname, 'portfolio.html'),
+        business: resolve(__dirname, 'business.html'),
+        profile: resolve(__dirname, 'profile.html')
       }
     }
   },

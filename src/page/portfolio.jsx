@@ -1,13 +1,13 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 import Header from '../components/header';
+import Side from '../components/side';
 import Footer from '../components/footer';
-import Animation from '../components/animation';
 import MainVisual from '../components/mainvisual';
-import styles from '../assets/css/module/App.module.css';
-import ItemList from '../components/topitemextend';
+import ItemList from '../components/itemextend';
 import { HacoCmsClient } from 'hacocms-js-sdk';
-import '../assets/css/page/index.css';
+import styles from '../assets/css/module/App.module.css';
+import '../assets/css/page/item.css';
 
 const PROJECT_SUBDOMAIN = import.meta.env.VITE_HACOCMS
 const PROJECT_ACCESS_TOKEN = import.meta.env.VITE_HACOCMS_API
@@ -21,23 +21,30 @@ export async function request() {
 const requestsite = await request().catch((code) => { console.error(); });
 
 export async function requestbanner() {
-  const id = 'zBsoo7';
+  const id = 'BLs33X';
   const client = new HacoCmsClient(`https://${PROJECT_SUBDOMAIN}.hacocms.com`, PROJECT_ACCESS_TOKEN)
   const res = await client.getContent(Object, '/banner', id)
   return res
 }
 const mainvisual = await requestbanner().catch((code) => { console.error(); });
 
-document.title = requestsite ? 'トップ | ' + requestsite.name : 'トップ';
+document.title = requestsite ? '商品一覧 | ' + requestsite.name : '商品一覧';
 
-function Index() {
+function Item() {
   return (
     <>
       <Header />
-      <MainVisual data={{id_add:"t_main_visual", data: mainvisual}} />
+      <MainVisual data={{data: mainvisual}} />
+      <div class={styles.l_container}>
+        <main class={styles.l_main}>
+          <ul class={styles.c_itemlist}>
+            <ItemList />
+          </ul>
+        </main>
+        <Side />
+      </div>
       <Footer />
-      {/* <Animation /> */}
     </>
   );
 }
-render(() => <Index />, document.getElementById('root'));
+render(() => <Item />, document.getElementById('root'));
