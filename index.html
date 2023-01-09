@@ -4,9 +4,172 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link id="favicon" rel="shortcut icon" type="image/ico" />
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <style type="text/css">
+      #c-logoanimation {
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        background-color: #f4f4f4;
+        image-rendering: pixelated;
+        -webkit-animation: fadeout 1s linear 10s infinite;
+                animation: fadeout 1s linear 10s infinite;
+        -webkit-animation-fill-mode: forwards;
+                animation-fill-mode: forwards;
+        -webkit-animation-iteration-count: 1;
+                animation-iteration-count: 1;
+      }
+      @keyframes fadeout{
+        0%{opacity:1;filter:brightness(1) blur(0px)}
+        10%{opacity:.5;filter:brightness(2) blur(10px)}
+        to{opacity:0;filter:brightness(1) blur(20px);z-index:-1}
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <canvas id="c-logoanimation"></canvas>    
     <script src="/src/page/index.jsx" type="module"></script>
+    <script>
+      init();
+
+      async function init() {
+
+        // 画像を読み込む
+        const image = new Image();
+        image.src = "/src/assets/images/logo.png";
+        await image.decode();
+
+        // 画像のサイズを算出
+        const imageW = image.width;
+        const imageH = image.height;
+
+        // 画像をメモリ上のcanvasに転写。ピクセル値を取得するため
+        const canvas = document.createElement("canvas");
+        canvas.width = imageW;
+        canvas.height = imageH;
+        const context = canvas.getContext("2d", {
+          willReadFrequently: true,
+        });
+        context.drawImage(image, 0, 0);
+
+        // ----------------------------------------------
+        // PixiJSのセットアップ
+        // ----------------------------------------------
+
+        // PIXIのアプリケーションを作成する
+        const app = new PIXI.Application({
+          resolution: window.devicePixelRatio,
+          resizeTo: window,
+          backgroundColor: 0xf4f4f4,
+          view: document.querySelector("#c-logoanimation"),
+        });
+
+        // コンテナーを利用
+        const container = new PIXI.Container();
+        app.stage.addChild(container);
+
+        // ----------------------------------------------
+        // パーティクルの生成
+        // ----------------------------------------------
+        const dots = []; // パーティクルの保存先
+
+        const lengthW = imageW;
+        const lengthH = imageH;
+
+        for (let i = 0; i < lengthW * lengthH; i++) {
+          // カウンタ変数 i から x, y を算出
+          const x = i % lengthW;
+          const y = Math.floor(i / lengthW);
+
+          // x,y座標の画素情報を取得
+          const dotData = context.getImageData(x, y, 1, 1);
+          // 透過チャンネルを取得(0 = 赤, 1 = 緑, 2 = 青, 3 = アルファ)
+          const alpha = dotData.data[3];
+
+          // 透明だったらスプライトは作らないようにする
+          if (alpha === 0) {
+            continue;
+          }
+
+          // パーティクルを生成
+          const dot = new PIXI.Sprite(PIXI.Texture.WHITE);
+          dot.x = x - imageW / 2;
+          dot.y = y - imageH / 2;
+          dot.width = 1;
+          dot.height = 1;
+          dot.alpha = alpha / 255; // 元画像の透明度を適用
+          dot.tint = 0x898989;
+          container.addChild(dot);
+          // パーティクルにXYの算出元番号を記録
+          dot.offsetIndex = i;
+          // 配列に保存
+          dots.push(dot);
+        }
+
+        // ----------------------------------------------
+        // モーションの実装
+        // ----------------------------------------------
+
+        // GSAPのタイムラインを作成（各トゥイーンを集約管理するため）
+        const tl = gsap.timeline({ repeat: 0, yoyo: false });
+
+        // 画面サイズを取得
+        const stageW = app.screen.width;
+        const stageH = app.screen.height;
+
+        for (let i = 0; i < dots.length; i++) {
+          const dot = dots[i];
+          const randomX = stageW * (Math.random() - 0.5);
+          const randomY = stageH * (Math.random() - 0.5);
+
+          tl.from(
+            dot,
+            {
+              x: randomX,
+              y: randomY,
+              alpha: 0,
+              duration: 4,
+              ease: "expo.inOut",
+            },
+            0, // 各トゥイーンは0秒地点を開始とする
+          );
+        }
+
+        // 待機時間を設ける
+        tl.add(() => {}, "+=0.25");
+
+        // const jsLogo = '[id*=logo_no]';
+
+        // gsap.set(jsLogo, {
+        //   opacity: 0,
+        //   y: -50
+        // });
+
+        // gsap.to(jsLogo, {
+        //   opacity: 1,
+        //   y: 0,
+        //   delay: 5,
+        //   duration: 0.8, // seconds
+        //   stagger: {
+        //     amount: 0.6,
+        //     from: "start",
+        //     ease: "sine.in"
+        //   }
+        // }, '+=0.2')
+
+        const resize = () => {
+          // コンテナーを中心に移動
+          container.x = app.screen.width / 2;
+          container.y = app.screen.height / 2;
+        };
+        window.addEventListener("resize", resize);
+        resize();
+      }
+    </script>
   </body>
 </html>

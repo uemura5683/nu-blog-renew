@@ -1,21 +1,14 @@
 import styles from '../assets/css/module/App.module.css';
 import { createSignal, onMount, For  } from 'solid-js';
-import { HacoCmsClient, SortQuery } from 'hacocms-js-sdk';
-
-const PROJECT_SUBDOMAIN = import.meta.env.VITE_HACOCMS
-const PROJECT_ACCESS_TOKEN = import.meta.env.VITE_HACOCMS_API
 
 export default function Drawer() {
-
-  const [cats, setCats] = createSignal();
-
-  onMount(async () => {
-    const client = new HacoCmsClient(`https://${PROJECT_SUBDOMAIN}.hacocms.com`, PROJECT_ACCESS_TOKEN)
-    const res = await client.getList(Object, '/navigation', { s: SortQuery.build(['createdAt', 'desc']), limit: 30 });
-    const data = await res.data
-    setCats(await data);
-  });
-
+  const [cats, setCats] = createSignal([
+    { link: 'index.html', text: 'トップ' },
+    { link: 'business.html', text: 'ビジネス' },
+    { link: 'portfolio.html', text: 'ポートフォリオ' },
+    { link: 'profile.html', text: '自己紹介' },
+    { link: 'contact.html', text: 'お問合せ' }
+  ]);
   return (
     <div class={styles.c_drawer}>
       <ul class={styles.c_drawer_ul}>

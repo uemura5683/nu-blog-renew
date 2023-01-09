@@ -1,6 +1,6 @@
 :root {
   --white: #ffffff;
-  --purple: #6D5458;
+  --gray: #F4F4F4;
   --black: #333333;
 }
 /**
@@ -79,7 +79,7 @@ img {
   text-align: center;
 }
 h2, h3 {
-  color: var(--purple);
+  color: var(--gray);
 }
 h2 {
   font-size: 1.4rem;
@@ -169,7 +169,6 @@ pre {
 * header
 **/
 .header {
-  background-color: var(--purple);
   min-height: 60px;
   display: flex;
   flex-wrap: wrap;
@@ -192,9 +191,8 @@ pre {
   display: flex;
 }
 .header .c_header_nav_li a {
-  color: var(--white);
+  color: var(--black);
   margin: 0 0 0 1rem;
-  font-family: "游明朝", "Yu Mincho", "游明朝体", "YuMincho", serif;
   position: relative;
 }
 .header .c_header_nav_li a:after {
@@ -203,7 +201,7 @@ pre {
   position: absolute;
   bottom: -5px;
   left: 0;
-  border-bottom: 1px solid var(--white);
+  border-bottom: 1px solid var(--black);
   -webkit-transition: ease-in-out .5s width;
           transition: ease-in-out .5s width;
 }
@@ -213,9 +211,8 @@ pre {
           transition: ease-in-out .5s width;
 }
 .header .c_hunberger_menu {
-  display: none;
-  top: 50%;
-  right: 5%;
+  top: 30px;
+  right: 20px;
   width: 25px;
   height: 22px;
   border: none;
@@ -232,7 +229,7 @@ pre {
   position: absolute;
   height: 1px;
   width: 100%;
-  background-color: var(--white);
+  background-color: var(--black);
   -webkit-transition: all .3s ease-in-out;
           transition: all .3s ease-in-out;
 }
@@ -251,7 +248,7 @@ pre {
   transform: rotate(45deg);
 }
 .header .c_hunberger_menu.js_open span:nth-of-type(2) {
-    opacity: 0;
+  opacity: 0;
 }
 .header .c_hunberger_menu.js_open span:nth-of-type(3) {
   top: 10px;
@@ -278,7 +275,7 @@ pre {
 * footer
 **/
 .footer {
-  background-color: var(--purple);
+  background-color: var(--gray);
   min-height: 60px;
   display: flex;
   flex-wrap: wrap;
@@ -289,8 +286,7 @@ pre {
 }
 .footer .c_footerlink a,
 .footer .c_copyright {
-  color: var(--white);
-  font-family: "游明朝", "Yu Mincho", "游明朝体", "YuMincho", serif;
+  color: var(--black);
 }
 @media (max-width: 991px) {}
 @media (max-width: 767px) {
@@ -318,8 +314,8 @@ pre {
   transition: .5s ease-in-out opacity;
 }
 .js_drawer_open .c_drawer {
-  opacity: 0;
-  z-index: -1;
+  opacity: 1;
+  z-index: 10;
   transition: .5s ease-in-out opacity;
 }
 .c_drawer_ul {
@@ -338,7 +334,7 @@ pre {
   font-size: 1.2rem;
 }
 .c_drawer_bg {
-  background-color: var(--purple);
+  background-color: var(--gray);
   opacity: .7;
   position: fixed;
   top: 0;
@@ -347,13 +343,7 @@ pre {
   height: 100vh;
   z-index: 110;
 }
-@media (max-width: 991px) {
-  .js_drawer_open .c_drawer {
-    opacity: 1;
-    z-index: 10;
-    transition: .5s ease-in-out opacity;
-  }
-}
+@media (max-width: 991px) {}
 @media (max-width: 767px) {}
 
 /**
@@ -372,11 +362,11 @@ pre {
   margin: 0 0 2rem;
   text-align: left;
   font-family: "游明朝", "Yu Mincho", "游明朝体", "YuMincho", serif;
-  color: var(--purple);
+  color: var(--gray);
 }
 .c_title:after {
   content: '';
-  border-bottom: 1px solid var(--purple);
+  border-bottom: 1px solid var(--gray);
   display: block;
   padding: .5rem 0 0;
   width: 0px;
@@ -400,7 +390,7 @@ pre {
 .c_title_sub {
   margin: 0 0 1rem;
   font-weight: normal;
-  background-color: var(--purple);
+  background-color: var(--gray);
   color: var(--white);
   padding: .5rem;
 }
@@ -421,16 +411,16 @@ pre {
   border-spacing: 0;
   width: 80%;
   margin: 2rem auto 0;
-  border-top: 1px solid var(--purple);
-  border-right: 1px solid var(--purple);
+  border-top: 1px solid var(--gray);
+  border-right: 1px solid var(--gray);
 }
 .c_tablebody {
   width: 100%;
 }
 .c_tableth, .c_tabletd{
   padding: 10px;
-  border-left: 1px solid var(--purple);
-  border-bottom: 1px solid var(--purple);
+  border-left: 1px solid var(--gray);
+  border-bottom: 1px solid var(--gray);
   font-weight: normal;
 }
 .c_tableth {
@@ -453,7 +443,7 @@ pre {
   height: 30px;
   border-radius: 0;
   border-width: 1px;
-  border-color: var(--purple);
+  border-color: var(--gray);
   padding: 5px;
   width: 100%;
 }
@@ -461,7 +451,7 @@ pre {
   height: 200px;
 }
 .c_input::placeholder, .c_textarea::placeholder{
-  color: var(--purple);
+  color: var(--gray);
   font-weight: normal;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -722,14 +712,14 @@ pre {
   height: 40px;
   border-radius: 0px;
   border-width: 1px;
-  background-color: var(--purple);
+  background-color: var(--gray);
   color: var(--white);
   padding: 5px 20px;
   cursor: pointer;
 }
 .c_btn:hover {
   background-color: var(--white);
-  color: var(--purple);
+  color: var(--gray);
 }
 @media (max-width: 991px) {}
 @media (max-width: 767px) {
@@ -813,18 +803,18 @@ pre {
 .m_modal_alert {
   text-align: center;
   width: 100%;
-  color: var(--purple);
-  border: 1px solid var(--purple);
+  color: var(--gray);
+  border: 1px solid var(--gray);
 }
 .m_modal_title {
   font-weight: normal;
   margin: 0 0 1rem;
-  background: var(--purple);
+  background: var(--gray);
   color: var(--white);
   padding: 0.5rem 0;
 }
 .m_modal_alert_txt {
-  color: var(--purple);
+  color: var(--gray);
 }
 .m_modal_figure {
   width: 100%;

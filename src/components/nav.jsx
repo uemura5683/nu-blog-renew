@@ -6,13 +6,13 @@ const PROJECT_SUBDOMAIN = import.meta.env.VITE_HACOCMS
 const PROJECT_ACCESS_TOKEN = import.meta.env.VITE_HACOCMS_API
 
 export default function Nav() {
-  const [cats, setCats] = createSignal();
-  onMount(async () => {
-    const client = new HacoCmsClient(`https://${PROJECT_SUBDOMAIN}.hacocms.com`, PROJECT_ACCESS_TOKEN)
-    const res = await client.getList(Object, '/navigation', { s: SortQuery.build(['createdAt', 'desc']), limit: 30 });
-    const data = await res.data
-    setCats(await data);
-  });
+  const [cats, setCats] = createSignal([
+    { link: 'index.html', text: 'トップ' },
+    { link: 'business.html', text: 'ビジネス' },
+    { link: 'portfolio.html', text: 'ポートフォリオ' },
+    { link: 'profile.html', text: '自己紹介' },
+    { link: 'contact.html', text: 'お問合せ' }
+  ]);
   return (
     <nav class={styles.c_header_nav}>
       <ul class={styles.c_header_nav_ul}>
